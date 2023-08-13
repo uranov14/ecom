@@ -3,8 +3,8 @@
 		<div class="row">
 			<div class="span3">
 				<h5>ACCOUNT</h5>
-				<a href="login.html">YOUR ACCOUNT</a>
-				<a href="login.html">PERSONAL INFORMATION</a>
+				<a href="{{ url('login-register') }}">YOUR ACCOUNT</a>
+				<a href="{{ url('account') }}">PERSONAL INFORMATION</a>
 				<a href="login.html">ORDER HISTORY</a>
 			</div>
 			<div class="span3">

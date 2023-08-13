@@ -93,6 +93,9 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::get('users', 'UsersController@users');
         Route::post('update-user-status', 'UsersController@updateUserStatus');
 
+        // View Users Charts
+        Route::get('view-users-charts', 'UsersController@viewUsersCharts');
+
         // CMS Pages
         Route::get('cms-pages','CmsController@cmspages');
         Route::post('update-cms-page-status', 'CmsController@updateCMSPageStatus');
@@ -163,6 +166,8 @@ Route::namespace('App\Http\Controllers\Front')->group(function() {
     Route::match(['get', 'post'], '/contact', 'CmsController@contact');
     //Add Rating/Review
     Route::post('add-rating', 'RatingsController@addRating');
+    // Share Buttons
+    Route::get('/post', 'ShareButtonsController@share');
 
     Route::group(['middleware'=>['auth']], function() {       
         // User Account

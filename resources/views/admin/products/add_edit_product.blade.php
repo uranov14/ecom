@@ -61,7 +61,7 @@
         
         @if (!empty($product->main_image))
           <div class="mx-auto my-5 d-flex" style="align-items: flex-end;">
-            <img src="{{ asset('images/product_images/small/'.$productdata['main_image']) }}" alt="product image"> 
+            <img src="{{ asset('public/images/product_images/small/'.$productdata['main_image']) }}" alt="product image"> 
             <a 
               class="confirmDelete btn btn-danger ml-2"
               record="product-image"

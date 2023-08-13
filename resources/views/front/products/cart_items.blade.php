@@ -20,7 +20,7 @@
     @endphp
       <tr>
         <td>
-          <img width="60" src="{{ asset('images/product_images/small/'.$item['product']['main_image']) }}" alt=""/>
+          <img width="60" src="{{ asset('public/images/product_images/small/'.$item['product']['main_image']) }}" alt=""/>
         </td>
         <td colspan="2">
           {{ $item['product']['product_name'] }} ({{ $item['product']['product_code'] }})<br/>

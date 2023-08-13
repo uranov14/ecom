@@ -35,7 +35,9 @@
             @endif
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title text-bold">Users</h3>
+                <h3 class="card-title text-bold">
+                  Users &nbsp; | &nbsp; <a href="{{ url('admin/view-users-charts') }}">User Count Report</a>
+                </h3>
                 <a href="{{ url('admin/add-edit-user') }}" class="btn btn-block btn-success" style="width: fit-content; float: right;">Add User</a>
               </div>
               <!-- /.card-header -->

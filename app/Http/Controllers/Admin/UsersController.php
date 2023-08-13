@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Carbon\Carbon;
 use Session;
 
 class UsersController extends Controller
@@ -29,5 +30,37 @@ class UsersController extends Controller
             User::where('id', $data['user_id'])->update(['status'=>$status]);
             return response()->json(['status'=>$status, 'user_id'=>$data['user_id']]);
         }
+    }
+
+    public function viewUsersCharts() {
+        Session::put('page', 'users');
+        $current_month_users = User::whereYear('created_at', Carbon::now()->year)
+        ->whereMonth('created_at', Carbon::now()->month)
+        ->count();
+
+        $months = array();
+        $usersCount = array();
+        $count = 3;
+        while ($count >= 0) {
+            $months[] = date('M Y', strtotime('-'.$count.' month'));
+            if ($count != 0) {
+                $usersCount[] = User::whereYear('created_at', Carbon::now()->year)
+                ->whereMonth('created_at', Carbon::now()->subMonth($count))
+                ->count();
+            }
+            
+            $count--;
+        }
+        array_push($usersCount, $current_month_users);
+
+        $dataPoints = array();
+        foreach ($months as $key => $month) {
+            $dataPoints[] = array(
+                "y" => $usersCount[$key], 
+                "label" => $month
+            );
+        }
+
+        return view('admin.users.view_users_charts')->with(compact('dataPoints'));
     }
 }

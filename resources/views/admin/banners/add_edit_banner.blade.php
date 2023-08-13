@@ -138,7 +138,7 @@
               </div>
               <div class="col-md-6">
                 <div class="text-center">
-                  <img width="400" class="mt-5" src="{{ asset('images/banner_images/'.$banner['image']) }}" alt="banner image">
+                  <img width="400" class="mt-5" src="{{ asset('public/images/banner_images/'.$banner['image']) }}" alt="banner image">
                 </div>  
               </div>
             </div>

@@ -12,7 +12,7 @@
         @foreach ($banners as $key => $banner)
           <div class="item @if ($key == 0) active @endif">
             <div class="container">
-              <a @if (!empty($banner['link'])) href="{{ url($banner['link']) }}" @else href="javascript:void(0);" @endif><img style="width:100%" src="{{ asset('images/banner_images/'.$banner['image']) }}" title="{{ $banner['title'] }}" alt="{{ $banner['alt'] }}"/></a>
+              <a @if (!empty($banner['link'])) href="{{ url($banner['link']) }}" @else href="javascript:void(0);" @endif><img style="width:100%" src="{{ asset('public/images/banner_images/'.$banner['image']) }}" title="{{ $banner['title'] }}" alt="{{ $banner['alt'] }}"/></a>
             </div>
           </div>
 				@endforeach

@@ -84,7 +84,7 @@
               <div class="col-md-6 my-auto">
                 @if (!empty($productdata['main_image']))
                   <div class="d-flex" style="align-items: flex-end; justify-content: center;">
-                    <img src="{{ asset('images/product_images/small/'.$productdata['main_image']) }}" alt="product image"> 
+                    <img src="{{ asset('public/images/product_images/small/'.$productdata['main_image']) }}" alt="product image"> 
                     <a 
                       class="confirmDelete btn btn-danger ml-2"
                       record="product-image"
@@ -146,7 +146,7 @@
                   <tr>
                     <td>{{ $image['id'] }}</td>
                     <td>
-                      <img width="100" src="{{ asset('images/product_images/small/'.$image['image']) }}" alt="product image">
+                      <img width="100" src="{{ asset('public/images/product_images/small/'.$image['image']) }}" alt="product image">
                     </td>
                     <td>
                       @if ($image['status'] == 1)

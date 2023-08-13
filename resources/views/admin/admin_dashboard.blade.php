@@ -1,5 +1,26 @@
 @extends('layouts.admin_layouts.admin_layout')
 @section('content')
+
+<script>
+  window.onload = function () {
+  
+  var chart = new CanvasJS.Chart("chartContainer", {
+    title: {
+      text: "Report of Users Count"
+    },
+    axisY: {
+      title: "Number Users"
+    },
+    data: [{
+      type: "line",
+      dataPoints: <?php echo json_encode($dataUsersPoints, JSON_NUMERIC_CHECK); ?>
+    }]
+  });
+  chart.render();
+  
+  }
+</script>
+
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <div class="content-header">
@@ -94,6 +115,24 @@
         <!-- ./col -->
       </div>
       <!-- /.row -->
+      <!-- Charts -->
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="card">
+            <div class="card-body" style="background-color: #343a40;">
+              <div id="chartContainer" style="height: 250px;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Bar chart</h4>
+              <canvas id="barChart" style="height:230px"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
     </div><!-- /.container-fluid -->
   </section>
   <!-- /.content -->

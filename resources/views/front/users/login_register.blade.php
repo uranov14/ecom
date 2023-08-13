@@ -11,7 +11,7 @@
   
   <div class="row">
     @if (Session::has('success_message'))
-      <div class="alert alert-success" role="alert">
+      <div class="span5 alert alert-success" role="alert">
         <strong>Success: </strong>{{ Session::get('success_message') }}
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
           <span aria-hidden="true">&times;</span>
@@ -19,7 +19,7 @@
       </div>
     @endif
     @if (Session::has('error_message'))
-      <div class="alert alert-danger" role="alert">
+      <div class="span5 alert alert-danger" role="alert">
         {{ Session::get('error_message') }}
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
           <span aria-hidden="true">&times;</span>

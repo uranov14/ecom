@@ -285,7 +285,7 @@
                       <tr>
                         <td>
                           <a target="_blank" href="{{ url('product/'.$product['product_id']) }}">
-                            <img width="70" src="{{ asset('images/product_images/small/'.$image) }}" alt="{{ $product['product_name'] }}">
+                            <img width="70" src="{{ asset('public/images/product_images/small/'.$image) }}" alt="{{ $product['product_name'] }}">
                           </a>
                         </td>
                         <td>{{ $product['product_code'] }}</td>

@@ -61,7 +61,7 @@
         
         @if (!empty($categorydata['category_image']))
           <div class="m-4 d-flex" style="align-items: flex-end;">
-            <img width="200" src="{{ asset('images/category_images/'.$categorydata['category_image']) }}" alt="category image"> 
+            <img width="200" src="{{ asset('public/images/category_images/'.$categorydata['category_image']) }}" alt="category image"> 
             <a 
               {{-- href="{{ url('admin/delete-category-image/'.$categorydata['id']) }}" --}} 
               class="confirmDelete btn btn-danger ml-2"
