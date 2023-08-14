@@ -18,12 +18,12 @@
                       <i class="tag"></i>
                       <a href="{{ url('product/'.$item['id']) }}">
                         @php
-                          $product_image_path = "public/images/product_images/small/".$item['main_image'];
+                          $product_image_path = "images/product_images/small/".$item['main_image'];
                         @endphp
                         @if (!empty($item['main_image']) && file_exists($product_image_path))
                           <img src="{{ asset($product_image_path) }}" alt="">
                         @else
-                          <img src="{{ asset('public/images/product_images/small/no_image.png') }}" alt="">
+                          <img src="{{ asset('images/product_images/small/no_image.png') }}" alt="">
                         @endif
                       </a>
                       <div class="caption">
@@ -59,12 +59,12 @@
         <div class="thumbnail" style="height: 320px;">
           <a  href="{{ url('product/'.$item['id']) }}">
             @php
-              $product_image_path = "public/images/product_images/small/".$item['main_image'];
+              $product_image_path = "images/product_images/small/".$item['main_image'];
             @endphp
             @if (!empty($item['main_image']) && file_exists($product_image_path))
               <img width="160" src="{{ asset($product_image_path) }}" alt="">
             @else
-              <img width="160" src="{{ asset('public/images/product_images/small/no_image.png') }}" alt="">
+              <img width="160" src="{{ asset('images/product_images/small/no_image.png') }}" alt="">
             @endif
           </a>
           <div class="caption">

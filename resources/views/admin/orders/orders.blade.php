@@ -37,7 +37,9 @@
 
             <div class="card">
               <div class="card-header">
-                <h3 class="text-bold text-center">Orders</h3>
+                <h3 class="text-bold text-center">
+                  Orders &nbsp; | &nbsp; <a href="{{ url('admin/view-orders-charts') }}">View Orders Report</a>
+                </h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">

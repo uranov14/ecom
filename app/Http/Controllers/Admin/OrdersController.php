@@ -14,6 +14,7 @@ use App\Models\AdminRole;
 use Auth;
 use Session;
 use Dompdf\Dompdf;
+use Carbon\Carbon;
 
 class OrdersController extends Controller
 {
@@ -36,6 +37,38 @@ class OrdersController extends Controller
         }
 
         return view('admin.orders.orders')->with(compact('orders', 'moduleOrders'));
+    }
+
+    public function viewOrdersCharts() {
+      Session::put('page', 'orders');
+      $current_month_orders = Order::whereYear('created_at', Carbon::now()->year)
+      ->whereMonth('created_at', Carbon::now()->month)
+      ->count();
+
+      $months = array();
+      $ordersCount = array();
+      $count = 3;
+      while ($count >= 0) {
+          $months[] = date('M Y', strtotime('-'.$count.' month'));
+          if ($count != 0) {
+              $ordersCount[] = Order::whereYear('created_at', Carbon::now()->year)
+              ->whereMonth('created_at', Carbon::now()->subMonth($count))
+              ->count();
+          }
+          
+          $count--;
+      }
+      array_push($ordersCount, $current_month_orders);
+
+      $dataPoints = array();
+      foreach ($months as $key => $month) {
+          $dataPoints[] = array(
+              "y" => $ordersCount[$key], 
+              "label" => $month
+          );
+      }
+      //echo "<pre>"; print_r($dataPoints); die;
+      return view('admin.orders.view_orders_charts')->with(compact('dataPoints'));
     }
 
     public function orderDetails($id) {

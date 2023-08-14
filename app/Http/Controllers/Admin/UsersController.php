@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Carbon\Carbon;
 use Session;
+use DB;
 
 class UsersController extends Controller
 {
@@ -62,5 +63,23 @@ class UsersController extends Controller
         }
 
         return view('admin.users.view_users_charts')->with(compact('dataPoints'));
+    }
+
+    public function viewUsersCountries() {
+        Session::put('page', 'users');
+        $get_users_countries = User::select('country', DB::raw('count(country) as count'))
+        ->groupBy('country')
+        ->get()->toArray();
+        //dd($get_users_countries);
+
+        $dataPoints = array();
+        foreach ($get_users_countries as $key => $country) {
+            $dataPoints[] = array(
+                "y" => $country['count'], 
+                "label" => $country['country']
+            );
+        }
+
+        return view('admin.users.view_users_countries')->with(compact('dataPoints'));
     }
 }

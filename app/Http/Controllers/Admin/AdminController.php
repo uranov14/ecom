@@ -6,10 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Admin; 
 use App\Models\Section;
-use App\Models\AdminRole;
-use App\Models\User;
-use App\Models\Order; 
-use Carbon\Carbon;
+use App\Models\AdminRole; 
 use Session;
 use Auth;
 use Hash;
@@ -26,60 +23,7 @@ class AdminController extends Controller
 
     public function dashboard() {
         Session::put('page', 'dashboard');
-        /* $current_month_orders = Order::whereYear('created_at', Carbon::now()->year)
-        ->whereMonth('created_at', Carbon::now()->month)
-        ->count();
-
-        $months = array();
-        $ordersCount = array();
-        $count = 3;
-        while ($count >= 0) {
-            $months[] = date('M Y', strtotime('-'.$count.' month'));
-            if ($count != 0) {
-                $ordersCount[] = Order::whereYear('created_at', Carbon::now()->year)
-                ->whereMonth('created_at', Carbon::now()->subMonth($count))
-                ->count();
-            }
-            
-            $count--;
-        }
-        array_push($ordersCount, $current_month_orders);
-        //echo "<pre>"; print_r($ordersCount); die;
-
-        $dataPoints = array();
-        foreach ($months as $key => $month) {
-            $dataPoints[] = array(
-                "y" => $ordersCount[$key], 
-                "label" => $month
-            );
-        } */
-        $current_month_users = User::whereYear('created_at', Carbon::now()->year)
-        ->whereMonth('created_at', Carbon::now()->month)
-        ->count();
-
-        $months = array();
-        $usersCount = array();
-        $count = 3;
-        while ($count >= 0) {
-            $months[] = date('M Y', strtotime('-'.$count.' month'));
-            if ($count != 0) {
-                $usersCount[] = User::whereYear('created_at', Carbon::now()->year)
-                ->whereMonth('created_at', Carbon::now()->subMonth($count))
-                ->count();
-            }
-            
-            $count--;
-        }
-        array_push($usersCount, $current_month_users);
-
-        $dataUsersPoints = array();
-        foreach ($months as $key => $month) {
-            $dataUsersPoints[] = array(
-                "y" => $usersCount[$key], 
-                "label" => $month
-            );
-        }
-        return view('admin.admin_dashboard')->with(compact('dataUsersPoints'));
+        return view('admin.admin_dashboard');
     }
 
     public function login(Request $request) {

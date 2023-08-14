@@ -193,7 +193,7 @@ $(document).ready(function() {
   $(document).on("click", ".updateCouponStatus", function() {
     var status = $(this).children("i").attr("status");
     var coupon_id = $(this).attr("coupon_id");
-    //alert(coupon_id); 
+    alert(coupon_id); 
 
     $.ajax({
       headers: {
@@ -212,7 +212,7 @@ $(document).ready(function() {
           $("#show-status-"+coupon_id).html("<span id='show-status-{{ $coupon['id'] }}' style='color: green;'>Active</span>")
         }
       },error: function() {
-        alert('Error with Update Coupon Status');
+        alert('Error with Update Coupon Status ffffffff');
       }
     })
   })
