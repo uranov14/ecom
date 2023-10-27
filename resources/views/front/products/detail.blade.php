@@ -1,3 +1,7 @@
+@php
+  use App\Models\Wishlist;
+@endphp
+
 @extends('layouts.front_layouts.front_layout')
 
 @section('content')
@@ -118,9 +122,29 @@
               <option value="{{ $attribute['size'] }}">{{ $attribute['size'] }}</option>
             @endforeach
           </select>
-          &nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;
           <input type="number" name="quantity" class="span1" placeholder="Qty."/>
-          <button type="submit" class="btn btn-large btn-primary pull-right"> Add to cart <i class=" icon-shopping-cart"></i></button>
+          <br><br>
+          <button type="submit" class="btn btn-large btn-primary btn-space"> Add to cart <i class=" icon-shopping-cart"></i></button>
+          @php
+            $countWishlist = Wishlist::countWishlist($productDetails['id']);
+          @endphp
+          @if (Auth::check())
+            <button type="button" id="updateWishlist" class="btn btn-large btn-primary btn-space" data-productid="{{ $productDetails['id'] }}">
+              Wishlist 
+              @if ($countWishlist > 0)
+                <i class="icon-heart" style="color: red;" title="Product in Wishlist"></i>
+              @else
+                <i class="icon-heart-empty" title="Not Product in Wishlist"></i>
+              @endif
+            </button>
+            <span id="actWishlist"></span>
+          @else
+            <button type="button" class="btn btn-large btn-primary btn-space btn-wishlist-not-login">
+              Wishlist <i class="icon-heart-empty"></i>
+            </button>
+          @endif
+          
           <br><br>
           <strong>Delivery</strong>
           <input type="text" class="span2" name="pincode" id="pincode" placeholder="Check pincode">
@@ -130,7 +154,9 @@
       </form>
     
       <hr class="soft clr"/>
-      <p class="span6">{{ $productDetails['description'] }}</p>
+      <p>
+        <?php echo $productDetails['description'] ?>
+      </p>
       <a class="btn btn-small pull-right" href="#detail">More Details</a>
       <br class="clr"/>
       <a href="#" name="detail"></a>
@@ -174,7 +200,7 @@
           </table>
           
           <h5>Washcare</h5>
-          <p>{{ $productDetails['wash_care'] }}</p>
+          <p><?php echo $productDetails['wash_care'] ?></p>
           <h5>Disclaimer</h5>
           <p>
             There may be a slight color variation between the image shown and original product.

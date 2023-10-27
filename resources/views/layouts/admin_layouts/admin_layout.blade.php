@@ -99,7 +99,10 @@
     $("#cmspages").DataTable();
     $("#admins").DataTable();
     $("#ratings").DataTable();
-    $('.select2').select2()
+    $("#subscribers").DataTable();
+    $("#return_requests").DataTable();
+    $("#return_requests").DataTable();
+    $('.select2').select2();
   });
 </script>
 <!-- ChartJS -->

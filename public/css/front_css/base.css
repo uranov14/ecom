@@ -154,3 +154,8 @@ form.cmxform label.error, label.error {
 }
 
 /* Modified from: https://github.com/mukulkant/Star-rating-using-pure-css */
+
+#actWishlist {
+	padding: .5rem;
+	background-color: lightyellow;
+}

@@ -45,6 +45,7 @@
                   <tr>
                     <th>ID</th>
                     <th>Image</th>
+                    <th>Type</th>
                     <th>Link</th>
                     <th>Title</th>
                     <th>Alt</th>
@@ -57,8 +58,9 @@
                     <tr>
                       <td>{{ $banner['id'] }}</td>
                       <td>
-                        <img width="180" src="{{ asset('public/images/banner_images/'.$banner['image']) }}" alt="Banner">
+                        <img width="180" src="{{ asset('images/banner_images/'.$banner['image']) }}" alt="Banner">
                       </td>
+                      <td>{{ $banner['type'] }}</td>
                       <td>{{ $banner['link'] }}</td>
                       <td>{{ $banner['title'] }}</td>
                       <td>{{ $banner['alt'] }}</td>

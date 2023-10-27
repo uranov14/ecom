@@ -25,6 +25,10 @@ class DatabaseSeeder extends Seeder
         //$this->call(OrderStatusSeeder::class);
         //$this->call(CmsPageSeeder::class);
         //$this->call(CurrencySeeder::class);
-        $this->call(RatingSeeder::class);
+        //$this->call(RatingSeeder::class);
+        //$this->call(WishlistSeeder::class);
+        //$this->call(ReturnRequestSeeder::class);
+        //$this->call(ExchangeRequestSeeder::class);
+        $this->call(NewsletterSubscriberSeeder::class);
     }
 }

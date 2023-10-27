@@ -37,9 +37,10 @@
 
             <div class="card">
               <div class="card-header">
-                <h3 class="text-bold text-center">
+                <h3 class="card-title text-bold">
                   Orders &nbsp; | &nbsp; <a href="{{ url('admin/view-orders-charts') }}">View Orders Report</a>
                 </h3>
+                <a href="{{ url('admin/export-orders') }}" class="btn btn-primary btn-mini mr-2" style="width: fit-content; float: right;">Export Orders</a>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
@@ -48,8 +49,7 @@
                   <tr>
                     <th>Order ID</th>
                     <th>Order Date</th>
-                    <th>Customer Name</th>
-                    <th>Customer Email</th>
+                    <th>Customer Name/Email</th>
                     <th>Ordered Products</th>
                     <th>Order Amount</th>
                     <th>Order Status</th>
@@ -62,8 +62,7 @@
                     <tr>
                       <td>{{ $order['id'] }}</td>
                       <td>{{ \Carbon\Carbon::parse($order['created_at'])->isoFormat('Do MMM YYYY')}}</td>
-                      <td>{{ $order['name'] }}</td>
-                      <td>{{ $order['email'] }}</td>
+                      <td>{{ $order['name'] }}<br>{{ $order['email'] }}</td>
                       <td>
                         @foreach ($order['order_products'] as $key => $product)
                           {{ $key+1 }}) {{ $product['product_name'] }} * {{ $product['product_qty'] }}<br/>

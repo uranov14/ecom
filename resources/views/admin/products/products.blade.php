@@ -65,12 +65,12 @@
                       <td>{{ $product->product_color }}</td>
                       <td class="text-center">
                         @php
-                          $product_image_path = "public/images/product_images/small/".$product->main_image;
+                          $product_image_path = "images/product_images/small/".$product->main_image;
                         @endphp
                         @if (!empty($product->main_image) && file_exists($product_image_path))
-                          <img width="100" src="{{ asset('public/images/product_images/small/'.$product->main_image) }}" alt="product image">
+                          <img width="100" src="{{ asset('images/product_images/small/'.$product->main_image) }}" alt="product image">
                         @else
-                          <img width="100" src="{{ asset('public/images/product_images/small/no_image.png') }}" alt="No image">
+                          <img width="100" src="{{ asset('images/product_images/small/no_image.png') }}" alt="No image">
                         @endif
                       </td>
                       <td>{{ $product->section->name }} / {{ $product->category->category_name }}</td>

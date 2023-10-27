@@ -36,9 +36,13 @@
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title text-bold">
-                  Users &nbsp; | &nbsp; <a href="{{ url('admin/view-users-charts') }}">User Count Report</a>
+                  Users &nbsp; | &nbsp; 
+                  <a href="{{ url('admin/view-users-charts') }}">Users Count Report(month)</a> &nbsp; | &nbsp; 
+                  <a href="{{ url('admin/view-users-countries') }}">Users Countries Report</a>
                 </h3>
+                
                 <a href="{{ url('admin/add-edit-user') }}" class="btn btn-block btn-success" style="width: fit-content; float: right;">Add User</a>
+                <a href="{{ url('admin/export-users') }}" class="btn btn-primary btn-mini mr-2" style="width: fit-content; float: right;">Export Users</a>
               </div>
               <!-- /.card-header -->
               <div class="card-body">

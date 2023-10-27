@@ -49,6 +49,7 @@
                 style="margin-top: -3px;"
                 shipping_charges="{{ $address['shipping_charges'] }}"
                 total_price="{{ $total_price }}"
+                total_GST="{{ $total_GST }}"
                 coupon_amount="{{ Session::get('couponAmount') }}"
                 codpincodeCount="{{ $address['codpincodeCount'] }}"
                 prepaidpincodeCount="{{ $address['prepaidpincodeCount'] }}"
@@ -124,8 +125,14 @@
           <td class="shippingCharges">0&nbsp;<strong style="font-size: .675rem;">&#x20b4;</strong></td>
         </tr>
         <tr>
-          <td colspan="6" style="text-align:right"><strong>GRAND TOTAL ({{ $total_price }} <strong style="font-size: .675rem;">&#x20b4;</strong> - <span class="couponAmount">{{ Session::get('couponAmount') }} <strong style="font-size: .675rem;">&#x20b4;</strong></span> + <span class="shippingCharges">0 <strong style="font-size: .675rem;">&#x20b4;</strong></span>) </strong></td>
-          <td class="label label-important" style="display:block"> <strong class="grand_total">{{ $total_price - Session::get('couponAmount') }} &#x20b4;</strong></td>
+          <td colspan="6" style="text-align:right">GST Charges:</td>
+          <td class="gstCharges">{{ $total_GST }}&nbsp;<strong style="font-size: .675rem;">&#x20b4;</strong></td>
+        </tr>
+        <tr>
+          <td colspan="6" style="text-align:right">
+            <strong>GRAND TOTAL ({{ $total_price }} <strong style="font-size: .675rem;">&#x20b4;</strong> - @if (Session::has('couponAmount')) <span class="couponAmount">{{ Session::get('couponAmount') }} </span> @else 0 @endif <strong style="font-size: .675rem;">&#x20b4;</strong> + <span class="shippingCharges">0 <strong style="font-size: .675rem;">&#x20b4;</strong></span> + <span class="gstCharges">{{ $total_GST }} <strong style="font-size: .675rem;">&#x20b4;</strong></span>) </strong>
+          </td>
+          <td class="label label-important" style="display:block"> <strong class="grand_total">{{ $total_price + $total_GST - Session::get('couponAmount') }} &#x20b4;</strong></td>
         </tr>
       </tbody>
     </table>

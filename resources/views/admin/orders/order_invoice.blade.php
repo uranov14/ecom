@@ -127,8 +127,14 @@
     							<tr>
     								<td class="no-line"></td>
     								<td class="no-line"></td>
-    								<td class="no-line text-right"><strong>Shipping:</strong></td>
-    								<td class="no-line text-right">$0</td>
+    								<td class="no-line text-right"><strong>Shipping Charges:</strong></td>
+    								<td class="no-line text-right">${{ $orderDetails['shipping_charges'] }}</td>
+    							</tr>
+                  <tr>
+    								<td class="no-line"></td>
+    								<td class="no-line"></td>
+    								<td class="no-line text-right"><strong>GST Charges:</strong></td>
+    								<td class="no-line text-right">${{ $orderDetails['gst_charges'] }}</td>
     							</tr>
                   @if ($orderDetails['coupon_amount'] > 0)
                     <tr>

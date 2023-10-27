@@ -60,8 +60,8 @@
         @endif
         
         @if (!empty($categorydata['category_image']))
-          <div class="m-4 d-flex" style="align-items: flex-end;">
-            <img width="200" src="{{ asset('public/images/category_images/'.$categorydata['category_image']) }}" alt="category image"> 
+          <div class="mx-auto my-5 d-flex" style="align-items: flex-end;">
+            <img width="200" src="{{ asset('images/category_images/'.$categorydata['category_image']) }}" alt="category image"> 
             <a 
               {{-- href="{{ url('admin/delete-category-image/'.$categorydata['id']) }}" --}} 
               class="confirmDelete btn btn-danger ml-2"
@@ -128,7 +128,7 @@
                 </div>
                 <div class="form-group">
                   <label for="description">Category Description</label>
-                  <textarea class="form-control" 
+                  <textarea class="form-control textarea" 
                     name="description" id="description" 
                     rows="3" placeholder="Enter ..." 
                   >
@@ -197,7 +197,7 @@
                 </div>
                 <div class="form-group">
                   <label for="meta_description">Meta Description</label>
-                  <textarea class="form-control" 
+                  <textarea class="form-control textarea" 
                     name="meta_description" id="meta_description" 
                     rows="3" placeholder="Enter ..."
                   >

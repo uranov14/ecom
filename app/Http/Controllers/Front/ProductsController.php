@@ -22,6 +22,7 @@ use App\Models\OrdersProduct;
 use App\Models\ShippingCharge;
 use App\Models\Currency;
 use App\Models\Rating;
+use App\Models\Wishlist;
 use Session;
 use Auth;
 use DB;
@@ -32,14 +33,14 @@ class ProductsController extends Controller
         Paginator::useBootstrap();
         if ($request->ajax()) {
             $data = $request->all();
-            //echo "<pre>"; print_r($data); die;
+            echo "<pre>"; print_r($data); die;
 
             $url = $data['url'];
             $categoryCount = Category::where(['url'=>$url, 'status'=>1])->count();
 
             if ($categoryCount > 0) {
                 $categoryDetails = Category::categoryDetails($url);
-                //dd($categoryDetails);
+                //echo "<pre>"; print_r($categoryDetails); die;
                 $categoryProducts = Product::with('brand')->whereIn('category_id', $categoryDetails['catIds'])->where('status', 1);
 
                 // If Fabric filter is selected
@@ -265,6 +266,15 @@ class ProductsController extends Controller
         return view('front.products.cart')->with(compact('getCartItems', 'meta_title', 'meta_keywords', 'meta_description'));
     }
 
+    public function wishlist() {
+        $userWishlist = Wishlist::userWishlist();
+        //dd($getCartItems);
+        $meta_title = "Wish List E-commerce Website";
+        $meta_keywords = "wishlist, e-commerce";
+        $meta_description = "View Wish List E-commerce Website";
+        return view('front.products.wishlist')->with(compact('userWishlist', 'meta_title', 'meta_keywords', 'meta_description'));
+    }
+
     public function updateCartItemQty(Request $request) {
         if ($request->ajax()) {
             $data = $request->all();
@@ -333,6 +343,22 @@ class ProductsController extends Controller
             return response()->json([ 
                 'totalCartItems'=>$totalCartItems,
                 'view'=>(String)View::make('front.products.cart_items')->with(compact('getCartItems'))
+            ]);
+        }
+    }
+
+    public function deleteWishlistItem(Request $request) {
+        if ($request->ajax()) {
+            $data = $request->all();
+            //echo "<pre>"; print_r($data); die;
+
+            //Delete cart
+            Wishlist::where('id', $data['wishlistid'])->delete();
+            $userWishlist = Wishlist::userWishlist();
+            $totalWishlistItems = totalWishlistItems();
+            return response()->json([ 
+                'totalWishlistItems'=>$totalWishlistItems,
+                'view'=>(String)View::make('front.products.wishlist_items')->with(compact('userWishlist'))
             ]);
         }
     }
@@ -459,10 +485,17 @@ class ProductsController extends Controller
 
         $total_price = 0;
         $total_weight = 0;
+        $total_GST = 0;
         foreach ($getCartItems as $item) {
             $attrPrice = Product::getDiscountedAttrPrice($item['product_id'], $item['size']);
-            $total_price += $attrPrice['final_price'] * $item['quantity'];
+            $product_total_price = $attrPrice['final_price'] * $item['quantity'];
+            $total_price += $product_total_price;
 
+            // Calculate GST for Item
+            $getGST = Product::select('product_gst')->where('id', $item['product_id'])->first();
+            $gstPercent = $getGST->product_gst;
+            $gstAmount = round($product_total_price / 100 * $gstPercent, 2);
+            $total_GST += $gstAmount; 
             $product_weight = $item['product']['product_weight'] * $item['quantity'];
             $total_weight += $product_weight;
         }
@@ -473,6 +506,8 @@ class ProductsController extends Controller
         foreach ($deliveryAddresses as $key => $address) {
             $rate = ShippingCharge::getShippingCharges($total_weight, $address['country']);
             $deliveryAddresses[$key]['shipping_charges'] = $rate;
+
+            $deliveryAddresses[$key]['gst_charges'] = $total_GST;
 
             //COD Pincode is Available or Not
             $deliveryAddresses[$key]['codpincodeCount'] = DB::table('cod_pincodes')->where('pincode', $address['pincode'])->count();
@@ -590,7 +625,7 @@ class ProductsController extends Controller
             $shipping_charges = ShippingCharge::getShippingCharges($total_weight, $deliveryAddress['country']);
 
             //Calculate Grand Total
-            $grand_total = $total_price + $shipping_charges - Session::get('couponAmount');
+            $grand_total = $total_price + $shipping_charges + $total_GST - Session::get('couponAmount');
 
             //Insert Grand Total in Session Variable
             Session::put('grand_total', $grand_total);
@@ -607,6 +642,7 @@ class ProductsController extends Controller
             $order->mobile = $deliveryAddress['mobile'];
             $order->email = Auth::user()->email;
             $order->shipping_charges = $shipping_charges;
+            $order->gst_charges = $total_GST;
             $order->coupon_code = Session::get('couponCode');
             $order->coupon_amount = Session::get('couponAmount');
             $order->order_status = $order_status;
@@ -694,7 +730,7 @@ class ProductsController extends Controller
         }
         
         $meta_title = "Checkout Page E-commerce Website";
-        return view('front.products.checkout')->with(compact('deliveryAddresses', 'countries', 'getCartItems', 'total_price', 'meta_title'));
+        return view('front.products.checkout')->with(compact('deliveryAddresses', 'countries', 'getCartItems', 'total_price', 'meta_title', 'total_GST'));
     }
 
     public function addEditDeliveryAddress(Request $request, $id=null) {
@@ -802,4 +838,26 @@ class ProductsController extends Controller
             }
         }
     }
+
+    public function updateWishlist(Request $request) {
+        if ($request->ajax()) {
+            $data = $request->all();
+            //echo "<pre>"; print_r($data); die;
+            $countWishlist = Wishlist::countWishlist($data['product_id']);
+            if ($countWishlist == 0) {
+                // Add Product in Wishlist
+                $wishlist = new Wishlist;
+                $wishlist->user_id = Auth::user()->id;
+                $wishlist->product_id = $data['product_id'];
+                $wishlist->save();
+
+                return response()->json(['status'=>true]);
+            } else {
+                Wishlist::where(['user_id'=>Auth::user()->id, 'product_id'=>$data['product_id']])->delete();
+
+                return response()->json(['status'=>false]);
+            }
+        }
+    }
+
 }

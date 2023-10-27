@@ -37,4 +37,5 @@ class Cart extends Model
         $attrPrice = ProductsAttribute::select('price')->where(['product_id'=>$product_id, 'size'=>$size])->first()->toArray();
         return $attrPrice['price'];
     }
+
 }

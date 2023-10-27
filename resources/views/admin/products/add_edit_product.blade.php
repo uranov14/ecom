@@ -61,7 +61,7 @@
         
         @if (!empty($product->main_image))
           <div class="mx-auto my-5 d-flex" style="align-items: flex-end;">
-            <img src="{{ asset('public/images/product_images/small/'.$productdata['main_image']) }}" alt="product image"> 
+            <img src="{{ asset('images/product_images/small/'.$productdata['main_image']) }}" alt="product image"> 
             <a 
               class="confirmDelete btn btn-danger ml-2"
               record="product-image"
@@ -167,7 +167,7 @@
                   <label for="product_weight">Product Weight</label>
                   <input type="text" class="form-control" 
                     name="product_weight" id="product_weight" 
-                    placeholder="Enter Product Discount"
+                    placeholder="Enter Product Weight"
                     @if (!empty($productdata['product_weight']))
                       value="{{ $productdata['product_weight'] }}"
                     @else
@@ -200,8 +200,20 @@
                   >
                 </div>
                 <div class="form-group">
+                  <label for="product_gst">Product GST (%)</label>
+                  <input type="text" class="form-control" 
+                    name="product_gst" id="product_gst" 
+                    placeholder="Enter Product GST"
+                    @if (!empty($productdata['product_gst']))
+                      value="{{ $productdata['product_gst'] }}"
+                    @else
+                      value="{{ old('product_gst') }}"    
+                    @endif 
+                  >
+                </div>
+                <div class="form-group">
                   <label for="description">Product Description</label>
-                  <textarea class="form-control" 
+                  <textarea class="form-control textarea" 
                     name="description" id="description" 
                     rows="3" placeholder="Enter ..." 
                   >
@@ -313,7 +325,7 @@
                 </div>
                 <div class="form-group">
                   <label for="meta_description">Meta Description</label>
-                  <textarea class="form-control" 
+                  <textarea class="form-control textarea" 
                     name="meta_description" id="meta_description" 
                     rows="3" placeholder="Enter ..."
                   >
@@ -326,7 +338,7 @@
                 </div>
                 <div class="form-group">
                   <label for="wash_care">Wash Care</label>
-                  <textarea class="form-control" 
+                  <textarea class="form-control textarea" 
                     name="wash_care" id="wash_care" 
                     rows="3" placeholder="Enter ..." 
                   >

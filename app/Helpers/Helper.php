@@ -1,5 +1,6 @@
 <?php
 use App\Models\Cart;
+use App\Models\Wishlist;
 
 function totalCartItems() {
   if (Auth::check()) {
@@ -10,4 +11,14 @@ function totalCartItems() {
     $totalCartItems = Cart::where('session_id', $session_id)->sum('quantity');
   }
   return $totalCartItems;
+}
+
+function totalWishlistItems() {
+  if (Auth::check()) {
+      //User is Logged in / pick auth id of the User
+      $user_id = Auth::user()->id;
+      $totalWishlistItems = Wishlist::where('user_id', $user_id)->count();
+  }
+
+  return $totalWishlistItems;
 }

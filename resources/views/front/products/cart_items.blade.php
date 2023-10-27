@@ -41,9 +41,9 @@
             </button>				
           </div>
         </td>
-        <td>{{ $attrPrice['product_price'] * $item['quantity'] }} $</td>
-        <td>{{ $attrPrice['discount'] * $item['quantity'] }} $</td>
-        <td>{{ $attrPrice['final_price'] * $item['quantity'] }} $</td>
+        <td>{{ $attrPrice['product_price'] * $item['quantity'] }} <small>&#x20b4;</small></td>
+        <td>{{ $attrPrice['discount'] * $item['quantity'] }} <small>&#x20b4;</small></td>
+        <td>{{ $attrPrice['final_price'] * $item['quantity'] }} <small>&#x20b4;</small></td>
       </tr>
       <?php $total_price += $attrPrice['final_price'] * $item['quantity']; ?>
     @endforeach

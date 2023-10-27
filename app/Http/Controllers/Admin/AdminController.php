@@ -6,7 +6,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Admin; 
 use App\Models\Section;
-use App\Models\AdminRole; 
+use App\Models\AdminRole;
+use App\Models\Category;
+use App\Models\Product;
+use App\Models\Brand;
+use App\Models\User; 
 use Session;
 use Auth;
 use Hash;
@@ -23,7 +27,11 @@ class AdminController extends Controller
 
     public function dashboard() {
         Session::put('page', 'dashboard');
-        return view('admin.admin_dashboard');
+        $categoriesCount = Category::get()->count();
+        $productsCount = Product::get()->count();
+        $brandsCount = Brand::get()->count();
+        $usersCount = User::get()->count();
+        return view('admin.admin_dashboard')->with(compact('categoriesCount', 'productsCount', 'brandsCount', 'usersCount'));
     }
 
     public function login(Request $request) {

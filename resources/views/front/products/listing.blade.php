@@ -6,10 +6,14 @@
     <li><a href="{{ url('/') }}">Home</a> <span class="divider">/</span></li>
     <li class="active"><?php echo $categoryDetails['breadcrumbs'] ?></li>
   </ul>
-  <h3> {{ $categoryDetails['categoryDetails']['category_name'] }} <small class="pull-right"> {{ count($categoryProducts) }} products are available </small></h3>
+  <h3> 
+    {{ $categoryDetails['categoryDetails']['category_name'] }} 
+    <small class="pull-right"> {{ count($categoryProducts) }} products are available </small>
+  </h3>
+  <img style="display: flex; margin: auto;" width="200" src="{{ asset('images/category_images/'.$categoryDetails['categoryDetails']['category_image']) }}" alt="">
   <hr class="soft"/>
   <p>
-    {{ $categoryDetails['categoryDetails']['description'] }}
+    <?php echo $categoryDetails['categoryDetails']['description'] ?>
   </p>
   @if (!isset($_REQUEST['search']))
     <hr class="soft"/>

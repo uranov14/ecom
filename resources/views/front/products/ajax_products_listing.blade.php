@@ -22,7 +22,7 @@
         <hr class="soft"/>
         <h4>{{ $product['product_name'] }}</h4>
         <p>
-          {{ $product['description'] }}
+          <?php echo $product['description'] ?>
         </p>
         <a class="btn btn-small pull-right" href="{{ url('product/'.$product['id']) }}">View Details</a>
         <br class="clr"/>

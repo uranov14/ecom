@@ -62,11 +62,15 @@
                     @endif
                     <tr>
                       <td>Order Total</td>
-                      <td>{{ $orderDetails['grand_total'] }} $</td>
+                      <td>{{ $orderDetails['grand_total'] }} <small>&#x20b4;</small></td>
                     </tr>
                     <tr>
                       <td>Shipping Charges</td>
-                      <td>{{ $orderDetails['shipping_charges'] }} $</td>
+                      <td>{{ $orderDetails['shipping_charges'] }} <small>&#x20b4;</small></td>
+                    </tr>
+                    <tr>
+                      <td>GST Charges</td>
+                      <td>{{ $orderDetails['gst_charges'] }} <small>&#x20b4;</small></td>
                     </tr>
                     <tr>
                       <td>Coupon Code</td>
@@ -175,7 +179,7 @@
                       <td colspan="2">
                         <form action="{{ url('admin/update-order-status') }}" method="POST">@csrf
                           <input type="hidden" name="order_id" value="{{ $orderDetails['id'] }}">
-                          <select style="height: 1.7rem;" name="order_status" id="order_status" required>
+                          <select style="height: 2rem;" name="order_status" id="order_status" required>
                             <option value="">Select Status</option>
                             @foreach ($orderStatuses as $status)
                               <option value="{{ $status['name'] }}"
@@ -187,9 +191,11 @@
                               </option>
                             @endforeach
                           </select>
-                          <input type="text" style="width: 30%;" name="courier_name" id="courier_name" value="{{ $orderDetails['courier_name'] }}" placeholder="Courier Name">
-                          <input type="text" style="width: 30%;" name="tracking_number" id="tracking_number" value="{{ $orderDetails['tracking_number'] }}" placeholder="Tracking Number ">
-                          <button type="submit" class="btn btn-outline-primary" style="padding-bottom: 1px; padding-top: 2px;">Update</button>
+                          @if ($orderDetails['order_status'] != "New" || $orderDetails['order_status'] == "Shipped" || $orderDetails['order_status'] == "Delivered")
+                            <input type="text" style="width: 26%;" name="courier_name" id="courier_name" value="{{ $orderDetails['courier_name'] }}" placeholder="Courier Name">
+                            <input type="text" style="width: 26%;" name="tracking_number" id="tracking_number" value="{{ $orderDetails['tracking_number'] }}" placeholder="Tracking Number ">
+                          @endif
+                          <button type="submit" class="btn btn-primary" style="padding: 2px 10px;">Update</button>
                         </form>
                       </td>
                     </tr>
@@ -201,6 +207,10 @@
                           <span style="float: right;">
                             {{ date('j F, Y, g:i a', strtotime($log['created_at'])) }}
                           </span>
+                          @if ($log['reason'] != "")
+                          <br>
+                            <strong>Reason: </strong>{{ $log['reason'] }}
+                          @endif
                           <hr>
                         @endforeach
                       </td>
@@ -275,6 +285,7 @@
                       <th>Product Size</th>
                       <th>Product Color</th>
                       <th>Product Qty</th>
+                      <th>Item Status</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -285,7 +296,7 @@
                       <tr>
                         <td>
                           <a target="_blank" href="{{ url('product/'.$product['product_id']) }}">
-                            <img width="70" src="{{ asset('public/images/product_images/small/'.$image) }}" alt="{{ $product['product_name'] }}">
+                            <img width="70" src="{{ asset('images/product_images/small/'.$image) }}" alt="{{ $product['product_name'] }}">
                           </a>
                         </td>
                         <td>{{ $product['product_code'] }}</td>
@@ -293,6 +304,7 @@
                         <td>{{ $product['product_size'] }}</td>
                         <td>{{ $product['product_color'] }}</td>
                         <td>{{ $product['product_qty'] }}</td>
+                        <td>{{ $product['item_status'] }}</td>
                       </tr>
                     @endforeach
                   </tbody>

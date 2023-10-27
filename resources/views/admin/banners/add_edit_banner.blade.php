@@ -72,6 +72,18 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
+                  <label for="type">Banner Type</label>
+                  <select class="form-control" name="type" id="type">
+                    <option value="">Select</option>
+                    <option @if (!empty($banner['type']) && $banner['type'] == 'Slider')
+                      selected
+                    @endif value="Slider">Slider</option>
+                    <option @if (!empty($banner['type']) && $banner['type'] == 'Fix')
+                      selected
+                    @endif value="Fix">Fix</option>
+                  </select>
+                </div>
+                <div class="form-group">
                   <label for="image">Banner Image</label>
                   <div class="input-group">
                     <div class="custom-file">
@@ -138,7 +150,11 @@
               </div>
               <div class="col-md-6">
                 <div class="text-center">
-                  <img width="400" class="mt-5" src="{{ asset('public/images/banner_images/'.$banner['image']) }}" alt="banner image">
+                  @if (!empty($banner['image']))
+                    <img width="400" class="mt-5" src="{{ asset('images/banner_images/'.$banner['image']) }}" alt="banner image">
+                  @else
+                    <h1 class="mt-5 text-bold text-red">New<br>Banner</h1>    
+                  @endif 
                 </div>  
               </div>
             </div>

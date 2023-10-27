@@ -154,6 +154,7 @@ class ProductsController extends Controller
             $product->product_weight = $data['product_weight'];
             $product->product_price = $data['product_price'];
             $product->product_discount = $data['product_discount'];
+            $product->product_gst = $data['product_gst'];
             $product->description = $data['description'];
             $product->meta_title = $data['meta_title'];
             $product->meta_keywords = $data['meta_keywords'];

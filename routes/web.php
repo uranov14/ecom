@@ -87,6 +87,9 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         // View Orders Charts
         Route::get('view-orders-charts', 'OrdersController@viewOrdersCharts');
 
+        // Export Orders
+        Route::get('export-orders', 'OrdersController@exportOrders');
+
         // Shipping Charges
         Route::get('view-shipping-charges', 'ShippingController@viewShippingCharges');
         Route::match(['get', 'post'], 'edit-shipping-charges/{id}', 'ShippingController@editShippingCharges');
@@ -99,6 +102,9 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         // View Users Charts
         Route::get('view-users-charts', 'UsersController@viewUsersCharts');
         Route::get('view-users-countries', 'UsersController@viewUsersCountries');
+
+        // Export Users
+        Route::get('export-users', 'UsersController@exportUsers');
 
         // CMS Pages
         Route::get('cms-pages','CmsController@cmspages');
@@ -122,6 +128,26 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         // Ratings
         Route::get('ratings','RatingsController@ratings');
         Route::post('update-rating-status', 'RatingsController@updateRatingStatus');
+
+        // Return Requests
+        Route::get('return-requests', 'OrdersController@returnRequests');
+        Route::post('return-requests/update', 'OrdersController@returnRequestUpdate');
+
+        // Exchange Requests
+        Route::get('exchange-requests', 'OrdersController@exchangeRequests');
+        Route::post('exchange-requests/update', 'OrdersController@exchangeRequestUpdate');
+
+        // Newsletter Subscriber
+        Route::get('subscribers', 'NewsletterController@subscribers');
+        Route::post('update-subscriber-status', 'NewsletterController@updateSubscriberStatus');
+        Route::get('delete-subscriber/{id}', 'NewsletterController@deleteSubscriber');
+        Route::get('export-subscribers', 'NewsletterController@exportSubscribers');
+
+        // Import COD Pincodes
+        Route::match(['get', 'post'], 'update-cod-pincodes', 'ImportController@updateCODPincodes');
+
+        // Import Prepaid Pincodes
+        Route::match(['get', 'post'], 'update-prepaid-pincodes', 'ImportController@updatePrepaidPincodes');
     });
     
 }); 
@@ -172,6 +198,8 @@ Route::namespace('App\Http\Controllers\Front')->group(function() {
     Route::post('add-rating', 'RatingsController@addRating');
     // Share Buttons
     Route::get('/post', 'ShareButtonsController@share');
+    // Add Subscriber Email
+    Route::post('add-subscriber-email', 'NewsletterController@addSubscriber');
 
     Route::group(['middleware'=>['auth']], function() {       
         // User Account
@@ -180,6 +208,12 @@ Route::namespace('App\Http\Controllers\Front')->group(function() {
         Route::get('/orders', 'OrdersController@orders');
         // User Order Details
         Route::get('/orders/{id}', 'OrdersController@orderDetails');
+        // Cancel User Order
+        Route::match(['get', 'post'], '/orders/{id}/cancel', 'OrdersController@orderCancel');
+        // Return User Order
+        Route::match(['get', 'post'], '/orders/{id}/return', 'OrdersController@orderReturn');
+        // Get Products Sizes in case of Order Exchange Request
+        Route::post('/get-product-sizes', 'OrdersController@getProductSizes');
         // Check User Current Password
         Route::post('/check-user-pwd', 'UsersController@checkUserPwd');
         // Update User Password
@@ -203,6 +237,12 @@ Route::namespace('App\Http\Controllers\Front')->group(function() {
         Route::get('/paypal/fail', 'PaypalController@fail');
         // Paypal IPN
         Route::post('/paypal/ipn', 'PaypalController@ipn');
+        // update Wishlist
+        Route::post('/update-wishlist', 'ProductsController@updateWishlist');
+        // View User Wishlist Product
+        Route::get('/wishlist', 'ProductsController@wishlist');
+        //Delete Wishlist Item
+        Route::post('/delete-wishlist-item', 'ProductsController@deleteWishlistItem');
 
         /* Route::controller(PaymentController::class)
             ->prefix('paypal')

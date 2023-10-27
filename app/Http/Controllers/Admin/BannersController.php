@@ -62,6 +62,21 @@ class BannersController extends Controller
         if ($request->isMethod('post')) {
             $data = $request->all();
             /* echo "<pre>"; print_r($data); die; */
+            if ($id == null) {
+                $rules = [
+                    'type' => 'required',
+                    'image' => 'required',
+                ];
+
+                $customMessage = [
+                    'type.required' => 'Banner Type is required!',
+                    'image.required' => 'Banner Image is required!',
+                ];
+
+                $this->validate($request, $rules, $customMessage);
+            }
+
+            $banner->type = $data['type'];
             $banner->link = $data['link'];
             $banner->title = $data['title'];
             $banner->alt = $data['alt'];

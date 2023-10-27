@@ -1,4 +1,5 @@
 $(document).ready(function() {
+  $(".productSizes").hide();
   $.ajaxSetup({
     headers: {
       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -206,6 +207,86 @@ $(document).ready(function() {
 		}
 	});
 
+  // Delete Wishlist Item
+	$(document).on('click','.btnWishlistItemDelete',function(){
+		var wishlistid = $(this).data('wishlistid');
+    //alert(wishlistid);
+		var result = confirm("Are you sure to delete this Wishlist Item?");
+		if (result) {
+			$.ajax({
+				data:{wishlistid:wishlistid}, 
+				url:'/delete-wishlist-item',
+				type:'post',
+				success:function(resp){
+          $(".totalWishlistItems").html(resp.totalWishlistItems);
+					$("#appendWishlistItems").html(resp.view);
+				},error:function(){
+					alert("Error with delete Wishlist Item");
+				}
+			});
+		}
+	});
+
+  // Cancel Order
+	$(document).on('click','.btnCancelOrder',function(){
+		var reason = $("#cancelReason").val();
+    if (reason == "") {
+      alert('Please Select Reason for Cancelling this Order.');
+      return false;
+    }
+		var result = confirm("Are you sure to cancel this Order?");
+    if (!result) {
+      return false;
+    }
+	});
+
+  $("#returnExchange").change(function () {
+    var return_exchange = $(this).val();
+    if (return_exchange == "Exchange") {
+      $(".productSizes").show();
+    } else {
+      $(".productSizes").hide();
+    }
+  });
+  $("#returnProduct").change(function () {
+    var product_info = $(this).val();
+    var return_exchange = $("#returnExchange").val();
+    if (return_exchange == "Exchange") {
+      $.ajax({
+        data:{product_info: product_info}, 
+        url:'/get-product-sizes',
+        type:'post',
+        success:function(resp){
+          $('#productSizes').html(resp);
+        },error:function(){
+          alert("Error with Return Exchange Product in Order");
+        }
+      });
+    }
+  });
+  // Return Order
+	$(document).on('click','.btnReturnOrder',function(){
+    var return_exchange = $("#returnExchange").val();
+    if (return_exchange == "") {
+      alert('Please select return or exchange option.');
+      return false;
+    }
+    var product = $("#returnProduct").val();
+    if (product == "") {
+      alert('Please Select Product for Returning this Order.');
+      return false;
+    }
+		var reason = $("#returnReason").val();
+    if (reason == "") {
+      alert('Please Select Reason for Returning this Order.');
+      return false;
+    }
+		var result = confirm("Are you sure to Return/Exchange this Order?");
+    if (!result) {
+      return false;
+    }
+	});
+
   // validate register form on keyup and submit
   $("#registerForm").validate({
     rules: {
@@ -381,6 +462,7 @@ $(document).ready(function() {
 		var shipping_charges = $(this).attr('shipping_charges');
 		//alert(shipping_charges);
     var total_price = $(this).attr('total_price');
+    var total_GST = $(this).attr('total_GST');
 		var coupon_amount = $(this).attr('coupon_amount');
 		var codpincodeCount = $(this).attr('codpincodeCount');
 		var prepaidpincodeCount = $(this).attr('prepaidpincodeCount');
@@ -403,8 +485,9 @@ $(document).ready(function() {
 		$(".couponAmount").html(coupon_amount + `&nbsp;<strong style="font-size: .675rem;">&#x20b4;</strong>`);
 		var total_price = $(this).attr('total_price');
 		$(".shippingCharges").html(shipping_charges + `&nbsp;<strong style="font-size: .675rem;">&#x20b4;</strong>`);
+    $(".gstCharges").html(total_GST + `&nbsp;<strong style="font-size: .675rem;">&#x20b4;</strong>`);
     
-		var grand_total = parseInt(total_price) + parseInt(shipping_charges) - parseInt(coupon_amount);
+		var grand_total = parseInt(total_price) + parseInt(shipping_charges) + parseInt(total_GST) - parseInt(coupon_amount);
 		
 		$(".grand_total").html(grand_total + `&nbsp;<strong style="font-size: .675rem;">&#x20b4;</strong>`);
 	});
@@ -428,7 +511,59 @@ $(document).ready(function() {
 		});
   });
 
+  $(".btn-wishlist-not-login").click(function() {
+    alert("Please Login to add products in your Wishlist.");
+  });
+
+  $("#updateWishlist").click(function() {
+    var product_id = $(this).data('productid');
+    //alert(product_id);
+
+    $.ajax({
+      data:{product_id: product_id}, 
+      url:'/update-wishlist',
+      type:'post',
+      success:function(resp){
+        if (resp.status) {
+          $('button[data-productid='+product_id+']').html('Wishlist <i class="icon-heart" style="color: red;" title="Product in Wishlist"></i>');
+          // Wishlist show act
+          $("#actWishlist").html("Product added in Wishlist!");
+        } else {
+          $('button[data-productid='+product_id+']').html('Wishlist <i class="icon-heart-empty"></i>');
+          // Wishlist show act
+          $("#actWishlist").html("Product removed from Wishlist!");
+        }
+      },error:function(){
+        alert("Error with update Wishlist");
+      }
+    });
+  });
+
 });
+
+function addSubscriber() {
+  var subscriber_email = $('#subscriber_email').val();
+  var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+  if (regex.test(subscriber_email)) {
+    $.ajax({
+      data:{subscriber_email: subscriber_email}, 
+      url:'/add-subscriber-email',
+      type:'post',
+      success:function(resp){
+        if (resp == "exists") {
+          alert("Subscriber Email already exists!");
+        } else {
+          alert("Thanks for Subscribing!");
+        }
+      },error:function(){
+        alert("Error with add Subscriber Email");
+      }
+    });
+  } else {
+    alert("Please Enter Valid Email!");
+    return false;
+  }
+}
 
 var spanList = document.getElementById('list');
 var spanBlock = document.getElementById('block');

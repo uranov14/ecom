@@ -20,6 +20,10 @@
 			</div>
 			<div class="span6">
 				<div class="pull-right">
+					<input type="email" pattern="[^@]+@[^@]+\.[a-zA-Z]{2,6}" name="subscriber_email" id="subscriber_email" style="height: 16px; margin-top: 10px;" placeholder="Enter Email" required>
+					<button class="btn btn-mini btn-warning" onclick="addSubscriber();">
+						Subscribe
+					</button>&nbsp;
 					<a href="{{ url('cart') }}"><span class="btn btn-mini btn-primary"><i class="icon-shopping-cart icon-white"></i> [ <span class="totalCartItems">{{ totalCartItems() }}</span> ] Items in your cart </span> </a>
 				</div>
 			</div>
@@ -67,7 +71,9 @@
 								<button type="submit">Go</button>
 		          </form>
 		          <ul class="nav pull-right">
-		            <li><a href="{{ url('orders') }}">Orders</a></li>
+		            <li><a href="{{ url('wishlist') }}">Wishlist</a></li>
+								<li class="divider-vertical"></li>
+								<li><a href="{{ url('orders') }}">Orders</a></li>
 		            <li class="divider-vertical"></li>
 								@if (Auth::check())
 									<li><a href="{{ url('account') }}">{{ Auth::user()->name }}</a></li>

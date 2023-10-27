@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Exports\usersExport;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Models\User;
 use Carbon\Carbon;
 use Session;
@@ -81,5 +83,9 @@ class UsersController extends Controller
         }
 
         return view('admin.users.view_users_countries')->with(compact('dataPoints'));
+    }
+
+    public function exportUsers() {
+        return Excel::download(new usersExport, 'users.xlsx');
     }
 }

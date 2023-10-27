@@ -271,6 +271,34 @@ $(document).ready(function() {
     })
   })
 
+  //Update Newsletter Subscriber Status
+  $(document).on("click", ".updateSubscriberStatus", function() {
+    var status = $(this).children("i").attr("status");
+    var subscriber_id = $(this).attr("subscriber_id");
+    //alert(subscriber_id); 
+
+    $.ajax({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      type: 'post',
+      url: '/admin/update-subscriber-status',
+      data: {status: status, subscriber_id: subscriber_id},
+      success: function(resp) {
+        //alert(resp);
+        if (resp['status'] == 0) {
+          $("#subscriber-"+subscriber_id).html("<i style='scale: 1.5;' class='fas fa-toggle-off' status='Inactive'></i>")
+          $("#show-status-"+subscriber_id).html("<span id='show-status-{{ $subscriber['id'] }}' style='color: red;'>Inactive</span>")
+        }else {
+          $("#subscriber-"+subscriber_id).html("<i style='scale: 1.5;' class='fas fa-toggle-on' status='Active'></i>")
+          $("#show-status-"+subscriber_id).html("<span id='show-status-{{ $subscriber['id'] }}' style='color: green;'>Active</span>")
+        }
+      },error: function() {
+        alert('Error with Update Subscriber Status');
+      }
+    })
+  })
+
   //Update Rating Status
   $(document).on("click", ".updateRatingStatus", function() {
     var status = $(this).children("i").attr("status");
@@ -497,8 +525,9 @@ $(document).ready(function() {
   //Show Courier Name and Tracking Number in case of Shipped Order Status
   $("#order_status").change(function () {
     var order_status = $(this).val();
-    //alert(order_status);
+    
     if(order_status == "Shipped") {
+      alert(order_status);
       $("#courier_name").show();
       $("#tracking_number").show();
     } else {
@@ -506,4 +535,4 @@ $(document).ready(function() {
       $("#tracking_number").hide();
     }
   })
-});
+}); 
